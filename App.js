@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import params from './src/params'
 import MineField from './src/components/MineField';
-import { createMinedBoard, cloneBoard, openField, hadExplosion, showMines, wonGame, invertFlag } from './src/logic'
+import { createMinedBoard, cloneBoard, openField, hadExplosion, showMines, wonGame, invertFlag, flagsUsed } from './src/logic'
+import Header from './src/components/Header';
 
 export default class App extends Component {
 
@@ -35,11 +36,11 @@ export default class App extends Component {
 
     if (lost) {
       showMines(board)
-      Alert.alert('Perdeu!')
+      Alert.alert('It lost!')
     }
 
     if (won) {
-      Alert.alert('Parabéns, você venceu!')
+      Alert.alert('Congratulations you won!')
     }
 
     this.setState({ board, lost, won })
@@ -51,7 +52,7 @@ export default class App extends Component {
     const won = wonGame(board)
 
     if (won) {
-      Alert.alert('Parabéns, você venceu!')
+      Alert.alert('Congratulations you won!')
     }
 
     this.setState({board, won})
@@ -60,9 +61,8 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Starting the Mines!</Text>
-        <Text>Grid size: {params.getRowsAmount()}x{params.getColumnsAmount()}</Text>
-
+        <Header flagsLeft={this.minesAmount() - flagsUsed(this.state.board)}
+        onNewGame={() => this.setState(this.createState())} />
         <View style={styles.board}>
           <MineField board={this.state.board} onOpenField={this.onOpenField} onSelectField={this.onSelectField}/>
         </View>
