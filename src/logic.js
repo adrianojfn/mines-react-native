@@ -46,10 +46,10 @@ const cloneBoard = board => {
 
 const getNeighbors = (board, row, column) => {
     const neighbors = []
-    const rows = [rows -1, row, row + 1]
-    const columns = [columns -1, columns, columns + 1]
+    const rows = [row -1, row, row + 1]
+    const columns = [column -1, column, column + 1]
     rows.forEach(r => {
-        column.forEach(c => {
+            columns.forEach(c => {
             const different = r !== row || c !== column
             const validRow = r >= 0 && r < board.length
             const validColumn = c >= 0 && c < board[0].length
